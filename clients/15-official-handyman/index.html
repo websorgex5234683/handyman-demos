@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Handyman</title>
+<meta name="description" content="">
+<meta name="robots" content="noindex, nofollow">
+<style>
+:root{--brand:#1f6feb;--brand-d:#1557c0;--accent:#f59e0b;--ink:#1c2430;--muted:#5b6675;--bg:#f6f7f9;--card:#fff;--line:#e3e7ec;--r:14px}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;color:var(--ink);background:var(--bg);line-height:1.5;padding-bottom:76px}
+a{color:inherit}
+.wrap{max-width:1040px;margin:0 auto;padding:0 18px}
+.ph{color:#9aa3ae;font-style:italic}
+header{background:#fff;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:10}
+header .wrap{display:flex;align-items:center;justify-content:space-between;height:60px;gap:12px}
+.logo{font-weight:800;font-size:1.1rem;display:flex;align-items:center;gap:8px}
+.logo img{height:36px}
+.hcall{background:var(--brand);color:#fff;text-decoration:none;padding:9px 14px;border-radius:10px;font-weight:700;white-space:nowrap}
+.hero{background:linear-gradient(160deg,#eaf2ff,#fff);padding:44px 0 36px}
+.hero h1{font-size:clamp(1.8rem,5vw,2.8rem);line-height:1.15;margin-bottom:10px}
+.hero p.lead{font-size:1.1rem;color:var(--muted);margin-bottom:18px}
+.badges{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:22px}
+.badge{background:#fff;border:1px solid var(--line);border-radius:999px;padding:6px 12px;font-size:.9rem;font-weight:600}
+.cta{display:flex;flex-wrap:wrap;gap:10px}
+.btn{display:inline-block;text-decoration:none;border:0;cursor:pointer;font:inherit;font-weight:700;padding:14px 22px;border-radius:12px;font-size:1.05rem;text-align:center}
+.btn-p{background:var(--brand);color:#fff}.btn-p:hover{background:var(--brand-d)}
+.btn-s{background:#fff;color:var(--ink);border:2px solid var(--ink)}
+section{padding:44px 0}
+section h2{font-size:1.6rem;margin-bottom:6px}
+section .sub{color:var(--muted);margin-bottom:22px}
+.grid{display:grid;gap:14px;grid-template-columns:repeat(auto-fill,minmax(220px,1fr))}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:18px}
+.svc .ic{font-size:1.8rem}.svc h3{margin:6px 0 4px;font-size:1.1rem}
+.svc .price{margin-top:8px;font-weight:700;color:var(--brand)}
+.steps{counter-reset:s}.step{position:relative;padding-left:52px}
+.step:before{counter-increment:s;content:counter(s);position:absolute;left:16px;top:18px;width:26px;height:26px;border-radius:50%;background:var(--accent);color:#fff;font-weight:800;display:grid;place-items:center}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{background:#fff;border:1px solid var(--line);border-radius:999px;padding:6px 14px}
+.ba{display:grid;grid-template-columns:1fr 1fr;gap:4px;border-radius:var(--r);overflow:hidden}
+.ba figure{position:relative}.ba img{width:100%;height:160px;object-fit:cover;display:block}
+.ba figcaption{position:absolute;left:6px;top:6px;background:rgba(0,0,0,.6);color:#fff;font-size:.75rem;padding:2px 8px;border-radius:6px}
+.stars{color:var(--accent);letter-spacing:2px}
+details{background:#fff;border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin-bottom:10px}
+summary{font-weight:700;cursor:pointer}details p{margin-top:8px;color:var(--muted)}
+form{display:grid;gap:12px;max-width:560px}
+label{font-weight:600;font-size:.95rem;display:grid;gap:5px}
+input,select,textarea{font:inherit;padding:12px;border:1px solid #c9d0d8;border-radius:10px;background:#fff;width:100%}
+textarea{min-height:110px}
+#formMsg{font-weight:600}
+.ok{color:#15803d}.err{color:#b91c1c}
+footer{background:var(--ink);color:#cfd6df;padding:30px 0;font-size:.95rem}
+footer a{color:#fff}
+.social{display:flex;gap:14px;flex-wrap:wrap;margin-top:10px}
+.bar{position:fixed;left:0;right:0;bottom:0;display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:10px;background:#fff;border-top:1px solid var(--line);z-index:20}
+.bar .btn{padding:12px}
+@media(min-width:800px){.bar{display:none}body{padding-bottom:0}}
+.hide{display:none!important}
+.demo{background:#fff4d6;color:#7a5200;text-align:center;font-size:.85rem;padding:6px 12px;border-bottom:1px solid #f0d58a}
+</style>
+</head>
+<body>
+
+<div class="demo hide" id="demoBar"></div>
+<header><div class="wrap">
+  <div class="logo" id="logo"></div>
+  <a class="hcall" id="hCall" href="#">📞 Call</a>
+</div></header>
+
+<div class="hero"><div class="wrap">
+  <h1 id="heroTitle"></h1>
+  <p class="lead" id="heroLead"></p>
+  <div class="badges" id="badges"></div>
+  <div class="cta">
+    <a class="btn btn-p" href="#quote">Get a Quote</a>
+    <a class="btn btn-s" id="heroCall" href="#">📞 Call Now</a>
+  </div>
+</div></div>
+
+<section id="services"><div class="wrap">
+  <h2>What I Can Help With</h2>
+  <p class="sub">Don't see your job? Just ask — send a quick message.</p>
+  <div class="grid" id="svcList"></div>
+</div></section>
+
+<section id="how" style="background:#fff"><div class="wrap">
+  <h2>How It Works</h2>
+  <p class="sub">Simple. No hassle.</p>
+  <div class="grid steps">
+    <div class="card step"><h3>Tell me the job</h3><p>Call, text, or fill out the form. Photos help!</p></div>
+    <div class="card step"><h3>Get a quote</h3><p>You'll know the price before any work starts.</p></div>
+    <div class="card step"><h3>Job done</h3><p>I show up, fix it, and clean up after.</p></div>
+  </div>
+</div></section>
+
+<section id="area"><div class="wrap">
+  <h2>Service Area</h2>
+  <p class="sub" id="areaSub"></p>
+  <div class="chips" id="areaList"></div>
+</div></section>
+
+<section id="gallery" style="background:#fff"><div class="wrap">
+  <h2>Recent Work</h2>
+  <p class="sub">Real before &amp; after photos.</p>
+  <div class="grid" id="galList"></div>
+</div></section>
+
+<section id="reviews"><div class="wrap">
+  <h2>What Customers Say</h2>
+  <p class="sub" id="revSub"></p>
+  <div class="grid" id="revList"></div>
+</div></section>
+
+<section id="faqSec" style="background:#fff"><div class="wrap">
+  <h2>Questions</h2>
+  <p class="sub">Quick answers.</p>
+  <div id="faqList"></div>
+</div></section>
+
+<section id="quote"><div class="wrap">
+  <h2>Request a Quote</h2>
+  <p class="sub">Takes 1 minute. I'll get back to you soon.</p>
+  <form id="qForm" novalidate>
+    <label>Your name<input name="name" required autocomplete="name"></label>
+    <label>Phone<input name="phone" type="tel" required autocomplete="tel"></label>
+    <label>Service<select name="service" id="svcSelect"><option value="">Choose…</option></select></label>
+    <label>ZIP code<input name="zip" inputmode="numeric" maxlength="5"></label>
+    <label>What needs to be done?<textarea name="details" required></textarea></label>
+    <button class="btn btn-p" type="submit">Send Request</button>
+    <p id="formMsg" role="status"></p>
+  </form>
+</div></section>
+
+<footer><div class="wrap">
+  <div id="fInfo"></div>
+  <div class="social" id="fSocial"></div>
+  <p style="margin-top:14px;font-size:.85rem" id="fCopy"></p>
+</div></footer>
+
+<div class="bar">
+  <a class="btn btn-s" id="barCall" href="#">📞 Call</a>
+  <a class="btn btn-p" href="#quote">Get a Quote</a>
+</div>
+
+<script src="config.js"></script>
+<script>
+(function(){
+  const S = window.SITE || {}, B = S.business || {}, P = !!S.showPlaceholders;
+  const $ = id => document.getElementById(id);
+  const has = v => Array.isArray(v) ? v.length > 0 : !!(v && String(v).trim());
+  const el = (tag, cls, text) => { const e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; };
+  // set text or placeholder; returns false if empty and placeholders off
+  const put = (node, val, ph) => {
+    if (has(val)) { node.textContent = val; return true; }
+    if (P) { node.textContent = "[" + ph + "]"; node.classList.add("ph"); return true; }
+    node.textContent = ""; return false;
+  };
+  const hideSec = (id, list) => { if (!has(list) && !P) $(id).classList.add("hide"); };
+  const place = [B.city, B.state].filter(has).join(", ");
+
+  // Demo banner
+  if (S.demo) { const db = $("demoBar"); db.textContent = "Demo preview" + (has(B.name) ? " prepared for " + B.name : "") + " — not the official website yet."; db.classList.remove("hide"); }
+
+  // Title / meta
+  if (has(B.name)) document.title = B.name + (place ? " — Handyman in " + place : "");
+  document.querySelector('meta[name=description]').content =
+    [B.tagline, place && "Handyman services in " + place].filter(has).join(". ");
+
+  // Logo
+  const logo = $("logo");
+  if (has(B.logo)) { const i = el("img"); i.src = B.logo; i.alt = B.name || "Logo"; logo.append(i); }
+  const ln = el("span"); put(ln, B.name, "Business Name"); logo.append(ln);
+
+  // Phone buttons
+  const tel = has(B.phone) ? "tel:" + B.phone.replace(/[^\d+]/g, "") : "";
+  ["hCall","heroCall","barCall"].forEach(id => {
+    const a = $(id);
+    if (tel) a.href = tel;
+    else if (P) { a.href = "#"; a.title = "Phone not set"; a.addEventListener("click", e => e.preventDefault()); }
+    else a.classList.add("hide");
+  });
+  if (has(B.phoneDisplay) && tel) $("heroCall").textContent = "📞 " + B.phoneDisplay;
+
+  // Hero
+  $("heroTitle").textContent = place ? "Your Local Handyman in " + place : (P ? "Your Local Handyman in [City, State]" : "Your Local Handyman");
+  put($("heroLead"), B.tagline, "Short tagline — e.g. what you do best");
+
+  // Badges (only true facts)
+  const badges = $("badges");
+  const addB = t => badges.append(el("span","badge",t));
+  if (B.licensed) addB("✅ Licensed" + (has(B.licenseNumber) ? " #" + B.licenseNumber : ""));
+  if (B.insured) addB("🛡️ Insured");
+  if (has(B.yearsInBusiness)) addB("🔧 " + B.yearsInBusiness + " years experience");
+  if (has(B.hours)) addB("🕒 " + B.hours);
+  if (B.freeQuotes) addB("💬 Free quotes");
+
+  // Services
+  const svc = S.services || [], sl = $("svcList"), sel = $("svcSelect");
+  svc.forEach(s => {
+    const c = el("div","card svc");
+    if (has(s.icon)) c.append(el("div","ic",s.icon));
+    c.append(el("h3",null,s.name || ""));
+    if (has(s.desc)) c.append(el("p",null,s.desc));
+    if (has(s.priceFrom)) c.append(el("div","price","From " + s.priceFrom));
+    sl.append(c);
+    const o = el("option",null,s.name); o.value = s.name; sel.append(o);
+  });
+  if (!svc.length && P) sl.append(el("div","card ph","[Add services in config.js]"));
+  sel.append(Object.assign(el("option",null,"Other"),{value:"Other"}));
+  hideSec("services", svc);
+
+  // Area
+  const area = S.serviceArea || [];
+  area.forEach(a => $("areaList").append(el("span","chip",a)));
+  if (!area.length && P) $("areaList").append(el("span","chip ph","[Cities / ZIP codes]"));
+  $("areaSub").textContent = place ? "Based in " + place + ". Not sure if I cover you? Just ask." : "Not sure if I cover you? Just ask.";
+  hideSec("area", area);
+
+  // Gallery
+  const gal = S.gallery || [];
+  gal.forEach(g => {
+    const c = el("div","card"); c.style.padding = "8px";
+    const ba = el("div","ba");
+    [["before","Before"],["after","After"]].forEach(([k,t]) => {
+      if (!has(g[k])) return;
+      const f = el("figure"), i = el("img"); i.src = g[k]; i.alt = t + (g.caption ? " — " + g.caption : ""); i.loading = "lazy";
+      f.append(i, el("figcaption",null,t)); ba.append(f);
+    });
+    c.append(ba); if (has(g.caption)) { const p = el("p",null,g.caption); p.style.padding = "8px 6px 2px"; c.append(p); }
+    $("galList").append(c);
+  });
+  if (!gal.length && P) $("galList").append(el("div","card ph","[Real before/after photos]"));
+  hideSec("gallery", gal);
+
+  // Reviews (real only)
+  const rev = S.reviews || [];
+  rev.forEach(r => {
+    const c = el("div","card");
+    const n = Math.max(0, Math.min(5, parseInt(r.stars) || 0));
+    if (n) c.append(el("div","stars","★".repeat(n)));
+    c.append(el("p",null,"“" + (r.text || "") + "”"));
+    const m = el("p",null,"— " + (r.name || "") + (has(r.source) ? " · " + r.source : "")); m.style.cssText = "color:var(--muted);margin-top:8px;font-size:.9rem";
+    c.append(m); $("revList").append(c);
+  });
+  if (!rev.length && P) $("revList").append(el("div","card ph","[Real reviews only — e.g. copied from Google]"));
+  const rs = $("revSub");
+  if (has(S.reviewsLink)) { const a = el("a",null,"See all reviews →"); a.href = S.reviewsLink; a.target = "_blank"; a.rel = "noopener"; rs.append(a); }
+  hideSec("reviews", rev);
+
+  // FAQ (+ payments as FAQ item if set)
+  const faq = (S.faq || []).slice();
+  if (has(S.payments)) faq.push({ q: "How can I pay?", a: S.payments.join(", ") });
+  faq.forEach(f => { const d = el("details"); d.append(el("summary",null,f.q), el("p",null,f.a)); $("faqList").append(d); });
+  if (!faq.length && P) $("faqList").append(el("div","card ph","[FAQ: payment, warranty, how fast you come…]"));
+  hideSec("faqSec", faq);
+
+  // Footer
+  const fi = $("fInfo");
+  const fn = el("strong"); put(fn, B.name, "Business Name"); fi.append(fn);
+  [B.address || place, B.hours].filter(has).forEach(t => fi.append(el("div",null,t)));
+  if (tel) { const a = el("a",null,B.phoneDisplay || B.phone); a.href = tel; { const w = el("div"); w.append(a); fi.append(w); } }
+  if (has(B.email)) { const a = el("a",null,B.email); a.href = "mailto:" + B.email; { const w = el("div"); w.append(a); fi.append(w); } }
+  const so = S.social || {}, names = {google:"Google",facebook:"Facebook",instagram:"Instagram",yelp:"Yelp",nextdoor:"Nextdoor"};
+  Object.keys(names).forEach(k => { if (has(so[k])) { const a = el("a",null,names[k]); a.href = so[k]; a.target = "_blank"; a.rel = "noopener"; $("fSocial").append(a); } });
+  $("fCopy").textContent = "© " + new Date().getFullYear() + (has(B.name) ? " " + B.name : "");
+
+  // Quote form
+  const L = S.leads || {}, form = $("qForm"), msg = $("formMsg");
+  const say = (t, ok) => { msg.textContent = t; msg.className = ok ? "ok" : "err"; };
+  form.addEventListener("submit", async e => {
+    e.preventDefault();
+    const d = Object.fromEntries(new FormData(form));
+    if (!has(d.name) || !has(d.phone) || !has(d.details)) return say("Please fill in name, phone and what needs to be done.");
+    const text = `New quote request\nName: ${d.name}\nPhone: ${d.phone}\nService: ${d.service || "-"}\nZIP: ${d.zip || "-"}\nDetails: ${d.details}`;
+    if (has(L.formEndpoint)) {
+      try {
+        const r = await fetch(L.formEndpoint, { method: "POST", headers: { "Accept": "application/json" }, body: new FormData(form) });
+        if (!r.ok) throw 0;
+        form.reset(); return say("Thanks! Your request was sent. I'll get back to you soon.", true);
+      } catch (_) { return say("Couldn't send. Please call or text instead."); }
+    }
+    if (has(L.email)) { location.href = "mailto:" + L.email + "?subject=" + encodeURIComponent("Quote request — " + d.name) + "&body=" + encodeURIComponent(text); return say("Your email app should open — just press Send.", true); }
+    if (has(L.sms)) { location.href = "sms:" + L.sms.replace(/[^\d+]/g,"") + "?&body=" + encodeURIComponent(text); return say("Your messages app should open — just press Send.", true); }
+    say(P ? "[Form not connected yet — set leads in config.js]" : "Please call us to request a quote.");
+  });
+})();
+</script>
+</body>
+</html>
