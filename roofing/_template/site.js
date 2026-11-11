@@ -221,8 +221,7 @@
       var ba = i % 2 === 0;
       h += '<figure class="card project ph-empty"><div class="ph-box' + (ba ? " split" : "") + '">' +
         (ba ? '<span class="ba-tag l">Before</span><span class="ba-tag r">After</span>' : "") +
-        '<div class="ph-msg">' + ic("layers", "big") + "<strong>" + (ba ? "Your before &amp; after photos here" : "Your project photos here") + "</strong>" +
-        "<span>Real photos of your roofing jobs</span></div></div></figure>";
+        '<div class="ph-msg">' + ic("layers", "big") + "<strong>" + "Your work will be shown here</strong></div></div></figure>";
     }
     return '<div class="grid projects">' + h + "</div>";
   }
