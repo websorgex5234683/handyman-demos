@@ -40,7 +40,6 @@ window.SITE = {
     financing: false,      // true, если есть рассрочка
     emergency247: false,   // true, если аварийный выезд 24/7
     familyOwned: false,    // true, если семейный бизнес
-    freeInspection: true,  // true -> везде "Free Roof Inspection". false -> "Request an Estimate"
   },
 
   // Дополнительные пункты "почему мы", если есть что-то своё:
@@ -66,7 +65,7 @@ window.SITE = {
   projects: [],
 
   // ---- Вопросы-ответы (только если ответы известны от них самих) ----
-  // [{ q: "Do you offer free inspections?", a: "Yes …" }]
+  // [{ q: "Do you work with insurance companies?", a: "…" }]
   faq: [],
 
   // ---- Форма заявки (для оплаченного сайта) ----

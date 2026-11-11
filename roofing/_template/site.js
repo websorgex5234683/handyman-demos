@@ -22,9 +22,8 @@
   function put(id, html) { var el = $(id); if (el) el.innerHTML = html || ""; }
 
   var where = [B.city, B.state].filter(has).join(", ");
-  var free = T.freeInspection !== false;
-  var inspLabel = free ? "Free Roof Inspection" : "Request an Estimate";
-  var inspShort = free ? "Free Inspection" : "Get an Estimate";
+  var inspLabel = "Request a Roof Inspection";
+  var inspShort = "Get an Inspection";
   var areas = list(S.serviceAreas);
   var reviews = list(S.reviews);
   var projects = list(S.projects);
@@ -135,7 +134,7 @@
   function ctaBand(title) {
     if (!has(B.phone) && page === "inspection") return "";
     return '<section class="cta-band"><div class="wrap cta-inner"><div><h2>' + (title || "Worried about your roof?") + "</h2>" +
-      "<p>" + (free ? "We'll take a look and tell you honestly what it needs — at no cost." : "Tell us what's going on and we'll get back to you.") + "</p></div>" +
+      "<p>" + "Tell us what's going on and we'll get back to you." + "</p></div>" +
       ctaButtons(true) + "</div></section>";
   }
 
@@ -166,7 +165,7 @@
       "<h1>" + h1 + "</h1>" +
       '<p class="lead">' + (services.length
         ? services.slice(0, 3).map(function (s) { return esc(s.title); }).join(", ").replace(/, ([^,]*)$/, " & $1") + "."
-        : "Roof repair and replacement questions? Talk to a local roofer.") + " " + (free ? "Get a free inspection — no pressure." : "") + "</p>" +
+        : "Roof repair and replacement questions? Talk to a local roofer.") + "</p>" +
       ctaButtons(true) + chips(4) + areasLine() +
       "</div>" + (has(B.heroImage) ? "" : '<div class="hero-art">' + houseSvg + "</div>") + "</div></section>";
   }
@@ -261,7 +260,7 @@
       '<label>What do you need?<select name="need"><option>Roof inspection</option><option>Leak / repair</option><option>Storm damage</option><option>Roof replacement</option><option>Other</option></select></label>' +
       '<label>Anything else? <span class="opt">(optional)</span><textarea name="message" rows="3"></textarea></label>' +
       '<input type="text" name="_gotcha" class="hp" tabindex="-1" autocomplete="off">' +
-      '<button class="btn btn-call btn-block btn-lg" type="submit">Request ' + (free ? "My Free Inspection" : "an Estimate") + '</button><p class="form-msg" id="formMsg" role="status"></p></form>' : "";
+      '<button class="btn btn-call btn-block btn-lg" type="submit">Send Request</button><p class="form-msg" id="formMsg" role="status"></p></form>' : "";
     var cc = contactCard();
     if (!form && !cc) return "";
     return '<section class="sec"><div class="wrap form-grid' + (form && cc ? "" : " single") + '">' + form + cc + "</div></section>";
@@ -297,7 +296,7 @@
         : '<section class="sec"><div class="wrap narrow center"><p class="lead">Project photos coming soon.' + (has(B.phone) ? " Call us to see examples of our work." : "") + "</p></div></section>") +
       reviewsSec() + ctaBand("Want results like these?");
   } else if (page === "inspection") {
-    html = pageHead(inspLabel, free ? "Book Your <span>Free</span> Roof Inspection" : "Request a Roofing Estimate",
+    html = pageHead(inspLabel, "Request a <span>Roof Inspection</span>",
       (has(B.phone) ? 'Fill out the short form or call <a href="' + tel(B.phone) + '">' + esc(B.phone) + "</a>." : "Fill out the short form and we'll get back to you.")) +
       formSec() + areasSec(true) + faqSec();
   }
