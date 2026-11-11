@@ -214,7 +214,22 @@
   }
   function projectsGrid(arr) { return '<div class="grid projects">' + arr.map(projectCard).join("") + "</div>"; }
 
+  // Пустые рамки для фото: только в демо и только пока фото не добавлены
+  function placeholders(n) {
+    var h = "";
+    for (var i = 0; i < n; i++) {
+      var ba = i % 2 === 0;
+      h += '<figure class="card project ph-empty"><div class="ph-box' + (ba ? " split" : "") + '">' +
+        (ba ? '<span class="ba-tag l">Before</span><span class="ba-tag r">After</span>' : "") +
+        '<div class="ph-msg">' + ic("layers", "big") + "<strong>" + (ba ? "Your before &amp; after photos here" : "Your project photos here") + "</strong>" +
+        "<span>Real photos of your roofing jobs</span></div></div></figure>";
+    }
+    return '<div class="grid projects">' + h + "</div>";
+  }
+  var showPh = S.demo && !projects.length;
+
   function workTeaser() {
+    if (showPh) return '<section class="sec alt"><div class="wrap"><div class="sec-top"><div><p class="kicker">Recent projects</p><h2>Our Work</h2></div><a class="btn btn-ghost" href="work.html">See all projects ' + ic("arrow") + "</a></div>" + placeholders(3) + "</div></section>";
     if (!projects.length) return "";
     return '<section class="sec alt"><div class="wrap"><div class="sec-top"><div><p class="kicker">Recent projects</p><h2>Our Work</h2></div><a class="btn btn-ghost" href="work.html">See all projects ' + ic("arrow") + "</a></div>" +
       projectsGrid(projects.slice(0, 3)) + "</div></section>";
@@ -291,8 +306,9 @@
     html = hero() + servicesSec() + whySec() + workTeaser() + reviewsSec() + areasSec(false) + ctaBand();
   } else if (page === "work") {
     html = pageHead("Our Work", "Recent Roofing Projects" + (where ? " in " + esc(where) : ""),
-      projects.some(function (p) { return has(p.before) && has(p.after); }) ? "Drag the slider on each photo to compare before and after." : "") +
-      (projects.length ? '<section class="sec"><div class="wrap">' + projectsGrid(projects) + "</div></section>"
+      showPh ? "Before &amp; after photos of your jobs will appear here." : projects.some(function (p) { return has(p.before) && has(p.after); }) ? "Drag the slider on each photo to compare before and after." : "") +
+      (showPh ? '<section class="sec"><div class="wrap">' + placeholders(6) + "</div></section>" :
+       projects.length ? '<section class="sec"><div class="wrap">' + projectsGrid(projects) + "</div></section>"
         : '<section class="sec"><div class="wrap narrow center"><p class="lead">Project photos coming soon.' + (has(B.phone) ? " Call us to see examples of our work." : "") + "</p></div></section>") +
       reviewsSec() + ctaBand("Want results like these?");
   } else if (page === "inspection") {
