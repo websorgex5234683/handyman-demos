@@ -7,129 +7,222 @@
 <meta name="description" content="">
 <meta name="robots" content="noindex, nofollow">
 <style>
-:root{--brand:#1f6feb;--brand-d:#1557c0;--accent:#f59e0b;--ink:#1c2430;--muted:#5b6675;--bg:#f6f7f9;--card:#fff;--line:#e3e7ec;--r:14px}
+:root{--brand:#1f6feb;--brand-d:#1557c0;--brand-l:#eaf2ff;--accent:#f59e0b;--ink:#17202b;--muted:#5b6675;--bg:#f6f7f9;--card:#fff;--line:#e3e7ec;--r:16px}
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;color:var(--ink);background:var(--bg);line-height:1.5;padding-bottom:76px}
+html{scroll-behavior:smooth}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;color:var(--ink);background:var(--bg);line-height:1.55;padding-bottom:80px;-webkit-font-smoothing:antialiased}
 a{color:inherit}
-.wrap{max-width:1040px;margin:0 auto;padding:0 18px}
-.ph{color:#9aa3ae;font-style:italic}
-header{background:#fff;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:10}
-header .wrap{display:flex;align-items:center;justify-content:space-between;height:60px;gap:12px}
-.logo{font-weight:800;font-size:1.1rem;display:flex;align-items:center;gap:8px}
-.logo img{height:36px}
-.hcall{background:var(--brand);color:#fff;text-decoration:none;padding:9px 14px;border-radius:10px;font-weight:700;white-space:nowrap}
-.hero{background:linear-gradient(160deg,#eaf2ff,#fff);padding:44px 0 36px}
-.hero h1{font-size:clamp(1.8rem,5vw,2.8rem);line-height:1.15;margin-bottom:10px}
-.hero p.lead{font-size:1.1rem;color:var(--muted);margin-bottom:18px}
-.badges{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:22px}
-.badge{background:#fff;border:1px solid var(--line);border-radius:999px;padding:6px 12px;font-size:.9rem;font-weight:600}
-.cta{display:flex;flex-wrap:wrap;gap:10px}
-.btn{display:inline-block;text-decoration:none;border:0;cursor:pointer;font:inherit;font-weight:700;padding:14px 22px;border-radius:12px;font-size:1.05rem;text-align:center}
-.btn-p{background:var(--brand);color:#fff}.btn-p:hover{background:var(--brand-d)}
+.wrap{max-width:1100px;margin:0 auto;padding:0 20px}
+.hide{display:none!important}
+
+/* demo bar */
+.demo{background:#fff4d6;color:#7a5200;text-align:center;font-size:.85rem;padding:7px 12px;border-bottom:1px solid #f0d58a}
+
+/* header */
+header{background:rgba(255,255,255,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:10}
+header .wrap{display:flex;align-items:center;justify-content:space-between;height:64px;gap:12px}
+.logo{font-weight:800;font-size:1.08rem;display:flex;align-items:center;gap:10px;text-decoration:none}
+.logo img{height:38px}
+.mono{width:38px;height:38px;border-radius:50%;background:var(--brand);color:#fff;display:grid;place-items:center;font-weight:800;font-size:1.1rem;flex:none}
+.hcall{background:var(--brand);color:#fff;text-decoration:none;padding:10px 16px;border-radius:12px;font-weight:700;white-space:nowrap;border:0;font:inherit;font-weight:700;cursor:pointer}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;text-decoration:none;border:0;cursor:pointer;font:inherit;font-weight:700;padding:15px 24px;border-radius:14px;font-size:1.05rem;transition:transform .15s,box-shadow .2s,background .2s}
+.btn:hover{transform:translateY(-2px)}
+.btn-p{background:var(--brand);color:#fff;box-shadow:0 6px 18px rgba(0,0,0,.12)}
+.btn-p:hover{background:var(--brand-d)}
 .btn-s{background:#fff;color:var(--ink);border:2px solid var(--ink)}
-section{padding:44px 0}
-section h2{font-size:1.6rem;margin-bottom:6px}
-section .sub{color:var(--muted);margin-bottom:22px}
-.grid{display:grid;gap:14px;grid-template-columns:repeat(auto-fill,minmax(220px,1fr))}
-.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:18px}
-.svc .ic{font-size:1.8rem}.svc h3{margin:6px 0 4px;font-size:1.1rem}
-.svc .price{margin-top:8px;font-weight:700;color:var(--brand)}
-.steps{counter-reset:s}.step{position:relative;padding-left:52px}
-.step:before{counter-increment:s;content:counter(s);position:absolute;left:16px;top:18px;width:26px;height:26px;border-radius:50%;background:var(--accent);color:#fff;font-weight:800;display:grid;place-items:center}
+.pulse{animation:pulse 2.6s ease-in-out infinite}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(31,111,235,.45)}50%{box-shadow:0 0 0 12px rgba(31,111,235,0)}}
+
+/* hero */
+.hero{background:radial-gradient(1200px 500px at 85% -10%,var(--brand-l),transparent 60%),linear-gradient(180deg,#fff,var(--bg));padding:48px 0 40px}
+.hero .wrap{display:grid;gap:36px;align-items:center}
+.hero h1{font-size:clamp(2rem,5.2vw,3.1rem);line-height:1.1;letter-spacing:-.02em;margin-bottom:14px}
+.hero h1 span{color:var(--brand)}
+.hero p.lead{font-size:1.12rem;color:var(--muted);margin-bottom:22px;max-width:34ch}
+.cta{display:flex;flex-wrap:wrap;gap:12px}
+.art{position:relative;border-radius:24px;background:linear-gradient(145deg,var(--brand),var(--brand-d));aspect-ratio:4/3;overflow:hidden;box-shadow:0 20px 50px rgba(0,0,0,.15)}
+.art svg{position:absolute;inset:0;width:100%;height:100%}
+.art .tag{position:absolute;left:16px;bottom:16px;background:#fff;border-radius:12px;padding:10px 14px;font-weight:700;font-size:.92rem;box-shadow:0 8px 20px rgba(0,0,0,.15)}
+.art .tag small{display:block;font-weight:500;color:var(--muted);font-size:.78rem}
+@media(min-width:860px){.hero .wrap{grid-template-columns:1.1fr .9fr}.hero{padding:72px 0 64px}}
+
+/* fact strip */
+.strip{background:#fff;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.strip .wrap{display:flex;flex-wrap:wrap;gap:10px 28px;justify-content:center;padding-top:16px;padding-bottom:16px;font-weight:600;font-size:.95rem;color:#344}
+.strip span{display:flex;align-items:center;gap:8px}
+
+/* sections */
+section{padding:56px 0}
+section.alt{background:#fff}
+section h2{font-size:clamp(1.5rem,3.4vw,2rem);letter-spacing:-.01em;margin-bottom:6px}
+section .sub{color:var(--muted);margin-bottom:26px}
+.grid{display:grid;gap:16px;grid-template-columns:repeat(auto-fill,minmax(230px,1fr))}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:20px;transition:transform .2s,box-shadow .2s,border-color .2s}
+.card.lift:hover{transform:translateY(-4px);box-shadow:0 14px 30px rgba(0,0,0,.08);border-color:transparent}
+.svc{display:flex;gap:14px;align-items:flex-start}
+.svc .ic{font-size:1.6rem;width:52px;height:52px;border-radius:14px;background:var(--brand-l);display:grid;place-items:center;flex:none}
+.svc h3{font-size:1.08rem;margin-bottom:2px}
+.svc p{color:var(--muted);font-size:.95rem}
+.svc .price{margin-top:6px;font-weight:700;color:var(--brand)}
+.grid.few{grid-template-columns:1fr;max-width:640px}
+.steps .card{position:relative;padding-left:64px}
+.steps .n{position:absolute;left:18px;top:20px;width:32px;height:32px;border-radius:50%;background:var(--accent);color:#fff;font-weight:800;display:grid;place-items:center}
+.steps h3{font-size:1.08rem;margin-bottom:2px}
+.steps p{color:var(--muted)}
 .chips{display:flex;flex-wrap:wrap;gap:8px}
-.chip{background:#fff;border:1px solid var(--line);border-radius:999px;padding:6px 14px}
-.ba{display:grid;grid-template-columns:1fr 1fr;gap:4px;border-radius:var(--r);overflow:hidden}
-.ba figure{position:relative}.ba img{width:100%;height:160px;object-fit:cover;display:block}
-.ba figcaption{position:absolute;left:6px;top:6px;background:rgba(0,0,0,.6);color:#fff;font-size:.75rem;padding:2px 8px;border-radius:6px}
+.chip{background:#fff;border:1px solid var(--line);border-radius:999px;padding:7px 15px;font-weight:600}
+.ba{display:grid;grid-template-columns:1fr 1fr;gap:4px;border-radius:12px;overflow:hidden}
+.ba figure{position:relative}.ba img{width:100%;height:170px;object-fit:cover;display:block}
+.ba figcaption{position:absolute;left:8px;top:8px;background:rgba(0,0,0,.6);color:#fff;font-size:.75rem;padding:2px 8px;border-radius:6px}
+.ph-photo{aspect-ratio:4/3;border:2px dashed #c9d3df;border-radius:var(--r);display:grid;place-items:center;text-align:center;color:#7b8794;background:repeating-linear-gradient(45deg,#fafbfc,#fafbfc 12px,#f3f5f8 12px,#f3f5f8 24px);padding:16px;font-weight:600}
+.gal-ph{grid-template-columns:repeat(3,1fr)!important;gap:10px}
+@media(max-width:600px){.gal-ph .ph-photo{aspect-ratio:1;padding:8px;font-size:.75rem}.gal-ph .ph-photo b{font-size:1.4rem}.art{aspect-ratio:16/9}}
+.ph-photo b{display:block;font-size:2rem;margin-bottom:6px}
 .stars{color:var(--accent);letter-spacing:2px}
-details{background:#fff;border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin-bottom:10px}
-summary{font-weight:700;cursor:pointer}details p{margin-top:8px;color:var(--muted)}
-form{display:grid;gap:12px;max-width:560px}
-label{font-weight:600;font-size:.95rem;display:grid;gap:5px}
-input,select,textarea{font:inherit;padding:12px;border:1px solid #c9d0d8;border-radius:10px;background:#fff;width:100%}
-textarea{min-height:110px}
+.revcta{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;background:var(--brand-l);border-radius:var(--r);padding:22px}
+.revcta p{font-weight:700;font-size:1.05rem}
+details{background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px 18px;margin-bottom:10px}
+summary{font-weight:700;cursor:pointer;list-style:none;display:flex;justify-content:space-between;gap:10px}
+summary::after{content:"+";font-size:1.3rem;line-height:1;color:var(--brand);transition:transform .2s}
+details[open] summary::after{transform:rotate(45deg)}
+details p{margin-top:8px;color:var(--muted)}
+
+/* quote */
+.quote-box{display:grid;gap:28px;align-items:start}
+@media(min-width:860px){.quote-box{grid-template-columns:.9fr 1.1fr}}
+.qside li{list-style:none;margin:10px 0;display:flex;gap:10px;align-items:flex-start}
+.qside li b{color:var(--brand)}
+form{display:grid;gap:14px;background:#fff;border:1px solid var(--line);border-radius:20px;padding:22px;box-shadow:0 14px 40px rgba(0,0,0,.06)}
+label{font-weight:600;font-size:.95rem;display:grid;gap:6px}
+input,textarea{font:inherit;padding:13px;border:1px solid #c9d0d8;border-radius:12px;background:#fff;width:100%;transition:border-color .2s,box-shadow .2s}
+input:focus,textarea:focus{outline:0;border-color:var(--brand);box-shadow:0 0 0 4px var(--brand-l)}
+textarea{min-height:110px;resize:vertical}
 #formMsg{font-weight:600}
-.ok{color:#15803d}.err{color:#b91c1c}
-footer{background:var(--ink);color:#cfd6df;padding:30px 0;font-size:.95rem}
+.err{color:#b91c1c}
+.done{display:grid;place-items:center;text-align:center;gap:10px;padding:30px 10px}
+.check{width:64px;height:64px;border-radius:50%;background:#16a34a;display:grid;place-items:center;animation:pop .5s cubic-bezier(.2,1.4,.4,1)}
+.check svg{width:34px;height:34px;stroke:#fff;stroke-width:3;fill:none;stroke-dasharray:40;stroke-dashoffset:40;animation:draw .5s .25s forwards}
+@keyframes pop{from{transform:scale(0)}to{transform:scale(1)}}
+@keyframes draw{to{stroke-dashoffset:0}}
+
+/* footer */
+footer{background:var(--ink);color:#cfd6df;padding:36px 0;font-size:.95rem}
 footer a{color:#fff}
 .social{display:flex;gap:14px;flex-wrap:wrap;margin-top:10px}
-.bar{position:fixed;left:0;right:0;bottom:0;display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:10px;background:#fff;border-top:1px solid var(--line);z-index:20}
-.bar .btn{padding:12px}
-@media(min-width:800px){.bar{display:none}body{padding-bottom:0}}
-.hide{display:none!important}
-.demo{background:#fff4d6;color:#7a5200;text-align:center;font-size:.85rem;padding:6px 12px;border-bottom:1px solid #f0d58a}
+
+/* sticky bar (mobile) */
+.bar{position:fixed;left:0;right:0;bottom:0;display:grid;grid-auto-flow:column;grid-auto-columns:1fr;gap:8px;padding:10px;background:#fff;border-top:1px solid var(--line);z-index:20;box-shadow:0 -6px 20px rgba(0,0,0,.06)}
+.bar .btn{padding:13px}
+@media(min-width:860px){.bar{display:none}body{padding-bottom:0}}
+
+/* toast */
+.toast{position:fixed;left:50%;bottom:96px;transform:translateX(-50%) translateY(20px);background:var(--ink);color:#fff;padding:12px 18px;border-radius:12px;font-size:.92rem;opacity:0;pointer-events:none;transition:.3s;z-index:30;max-width:90vw;text-align:center}
+.toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
+
+/* scroll reveal */
+.rv{opacity:0;transform:translateY(24px);transition:opacity .7s ease,transform .7s ease}
+.rv.in{opacity:1;transform:none}
+.stagger>*{opacity:0;transform:translateY(18px);transition:opacity .6s ease,transform .6s ease}
+.stagger.in>*{opacity:1;transform:none}
+.stagger.in>*:nth-child(2){transition-delay:.12s}.stagger.in>*:nth-child(3){transition-delay:.24s}.stagger.in>*:nth-child(4){transition-delay:.36s}.stagger.in>*:nth-child(5){transition-delay:.48s}.stagger.in>*:nth-child(6){transition-delay:.6s}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}.rv,.stagger>*{opacity:1;transform:none}}
 </style>
 </head>
 <body>
 
 <div class="demo hide" id="demoBar"></div>
+
 <header><div class="wrap">
-  <div class="logo" id="logo"></div>
-  <a class="hcall" id="hCall" href="#">📞 Call</a>
+  <a class="logo" href="#top" id="logo"></a>
+  <a class="hcall callbtn" href="#">📞 <span>Call</span></a>
 </div></header>
 
-<div class="hero"><div class="wrap">
-  <h1 id="heroTitle"></h1>
-  <p class="lead" id="heroLead"></p>
-  <div class="badges" id="badges"></div>
-  <div class="cta">
-    <a class="btn btn-p" href="#quote">Get a Quote</a>
-    <a class="btn btn-s" id="heroCall" href="#">📞 Call Now</a>
+<div class="hero" id="top"><div class="wrap">
+  <div class="rv">
+    <h1 id="heroTitle"></h1>
+    <p class="lead" id="heroLead"></p>
+    <div class="cta">
+      <a class="btn btn-p pulse callbtn" href="#">📞 <span>Call Now</span></a>
+      <a class="btn btn-s" href="#quote">Get a Quote</a>
+    </div>
+  </div>
+  <div class="art rv" aria-hidden="true">
+    <svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice">
+      <g fill="none" stroke="rgba(255,255,255,.18)" stroke-width="2">
+        <circle cx="320" cy="60" r="90"/><circle cx="320" cy="60" r="140"/><circle cx="60" cy="280" r="110"/>
+      </g>
+      <g transform="translate(120 60) rotate(-35 80 90)" fill="#fff">
+        <rect x="70" y="20" width="20" height="150" rx="8" opacity=".95"/>
+        <path d="M45 10h70a10 10 0 0 1 10 10v26a10 10 0 0 1-10 10H45a10 10 0 0 1-10-10V20a10 10 0 0 1 10-10z" opacity=".95"/>
+      </g>
+      <g transform="translate(150 70) rotate(35 80 90)" fill="rgba(255,255,255,.85)">
+        <rect x="72" y="70" width="16" height="110" rx="7"/>
+        <path d="M80 0c-22 0-38 16-38 36 0 14 8 25 20 31l6 13h24l6-13c12-6 20-17 20-31 0-20-16-36-38-36zm0 20a10 10 0 1 1 0 20 10 10 0 0 1 0-20z"/>
+      </g>
+    </svg>
+    <div class="tag" id="artTag"></div>
   </div>
 </div></div>
 
+<div class="strip" id="strip"><div class="wrap" id="stripIn"></div></div>
+
 <section id="services"><div class="wrap">
-  <h2>What I Can Help With</h2>
-  <p class="sub">Don't see your job? Just ask — send a quick message.</p>
-  <div class="grid" id="svcList"></div>
+  <div class="rv"><h2>What I Can Help With</h2>
+  <p class="sub">Don't see your job? Just ask — send a quick message.</p></div>
+  <div class="grid stagger" id="svcList"></div>
 </div></section>
 
-<section id="how" style="background:#fff"><div class="wrap">
-  <h2>How It Works</h2>
-  <p class="sub">Simple. No hassle.</p>
-  <div class="grid steps">
-    <div class="card step"><h3>Tell me the job</h3><p>Call, text, or fill out the form. Photos help!</p></div>
-    <div class="card step"><h3>Get a quote</h3><p>You'll know the price before any work starts.</p></div>
-    <div class="card step"><h3>Job done</h3><p>I show up, fix it, and clean up after.</p></div>
+<section id="how" class="alt"><div class="wrap">
+  <div class="rv"><h2>How It Works</h2><p class="sub">Simple. No hassle.</p></div>
+  <div class="grid steps stagger">
+    <div class="card"><span class="n">1</span><h3>Tell me the job</h3><p>Call, text, or fill out the form. Photos help!</p></div>
+    <div class="card"><span class="n">2</span><h3>Get a quote</h3><p>We agree on the price before any work starts.</p></div>
+    <div class="card"><span class="n">3</span><h3>Job done</h3><p>The work gets done and the place is left clean.</p></div>
   </div>
 </div></section>
 
+<section id="gallery"><div class="wrap">
+  <div class="rv"><h2>Recent Work</h2><p class="sub" id="galSub">Real before &amp; after photos.</p></div>
+  <div class="grid stagger" id="galList"></div>
+</div></section>
+
+<section id="reviews" class="alt"><div class="wrap">
+  <div class="rv"><h2>What Customers Say</h2><p class="sub">Real feedback from real customers.</p></div>
+  <div class="grid stagger" id="revList"></div>
+  <div class="revcta rv hide" id="revCta" style="margin-top:16px"><p id="revCtaText"></p><a class="btn btn-p" id="revCtaBtn" target="_blank" rel="noopener">Read reviews →</a></div>
+</div></section>
+
 <section id="area"><div class="wrap">
-  <h2>Service Area</h2>
-  <p class="sub" id="areaSub"></p>
-  <div class="chips" id="areaList"></div>
+  <div class="rv"><h2>Service Area</h2><p class="sub" id="areaSub"></p></div>
+  <div class="chips stagger" id="areaList"></div>
 </div></section>
 
-<section id="gallery" style="background:#fff"><div class="wrap">
-  <h2>Recent Work</h2>
-  <p class="sub">Real before &amp; after photos.</p>
-  <div class="grid" id="galList"></div>
+<section id="faqSec" class="alt"><div class="wrap" style="max-width:820px">
+  <div class="rv"><h2>Questions</h2><p class="sub">Quick answers.</p></div>
+  <div id="faqList" class="rv"></div>
 </div></section>
 
-<section id="reviews"><div class="wrap">
-  <h2>What Customers Say</h2>
-  <p class="sub" id="revSub"></p>
-  <div class="grid" id="revList"></div>
-</div></section>
-
-<section id="faqSec" style="background:#fff"><div class="wrap">
-  <h2>Questions</h2>
-  <p class="sub">Quick answers.</p>
-  <div id="faqList"></div>
-</div></section>
-
-<section id="quote"><div class="wrap">
-  <h2>Request a Quote</h2>
-  <p class="sub">Takes 1 minute. I'll get back to you soon.</p>
-  <form id="qForm" novalidate>
-    <label>Your name<input name="name" required autocomplete="name"></label>
-    <label>Phone<input name="phone" type="tel" required autocomplete="tel"></label>
-    <label>Service<select name="service" id="svcSelect"><option value="">Choose…</option></select></label>
-    <label>ZIP code<input name="zip" inputmode="numeric" maxlength="5"></label>
-    <label>What needs to be done?<textarea name="details" required></textarea></label>
-    <button class="btn btn-p" type="submit">Send Request</button>
-    <p id="formMsg" role="status"></p>
-  </form>
+<section id="quote"><div class="wrap quote-box">
+  <div class="qside rv">
+    <h2>Request a Quote</h2>
+    <p class="sub">Takes 1 minute. Just tell me what needs fixing.</p>
+    <ul>
+      <li><b>✓</b> No obligation</li>
+      <li><b>✓</b> Photos help — you can send them after</li>
+      <li id="qHours" class="hide"></li>
+    </ul>
+  </div>
+  <div class="rv" id="formWrap">
+    <form id="qForm" novalidate>
+      <label>Your name<input name="name" required autocomplete="name"></label>
+      <label>Phone<input name="phone" type="tel" required autocomplete="tel"></label>
+      <label>What needs to be done?<textarea name="details" required placeholder="e.g. Leaky faucet in the kitchen"></textarea></label>
+      <button class="btn btn-p" type="submit">Send Request</button>
+      <p id="formMsg" role="status"></p>
+    </form>
+  </div>
 </div></section>
 
 <footer><div class="wrap">
@@ -138,152 +231,182 @@ footer a{color:#fff}
   <p style="margin-top:14px;font-size:.85rem" id="fCopy"></p>
 </div></footer>
 
-<div class="bar">
-  <a class="btn btn-s" id="barCall" href="#">📞 Call</a>
+<div class="bar" id="bar">
+  <a class="btn btn-s callbtn" href="#">📞 <span>Call</span></a>
   <a class="btn btn-p" href="#quote">Get a Quote</a>
 </div>
+<div class="toast" id="toast"></div>
 
 <script src="config.js"></script>
 <script>
 (function(){
-  const S = window.SITE || {}, B = S.business || {}, P = !!S.showPlaceholders;
+  const S = window.SITE || {}, B = S.business || {}, P = !!S.showPlaceholders, DEMO = !!S.demo;
   const $ = id => document.getElementById(id);
   const has = v => Array.isArray(v) ? v.length > 0 : !!(v && String(v).trim());
   const el = (tag, cls, text) => { const e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; };
-  // set text or placeholder; returns false if empty and placeholders off
-  const put = (node, val, ph) => {
-    if (has(val)) { node.textContent = val; return true; }
-    if (P) { node.textContent = "[" + ph + "]"; node.classList.add("ph"); return true; }
-    node.textContent = ""; return false;
-  };
-  const hideSec = (id, list) => { if (!has(list) && !P) $(id).classList.add("hide"); };
   const place = [B.city, B.state].filter(has).join(", ");
+  const toast = t => { const x = $("toast"); x.textContent = t; x.classList.add("on"); clearTimeout(x._t); x._t = setTimeout(() => x.classList.remove("on"), 2800); };
 
-  // Demo banner
-  if (S.demo) { const db = $("demoBar"); db.textContent = "Demo preview" + (has(B.name) ? " prepared for " + B.name : "") + " — not the official website yet."; db.classList.remove("hide"); }
+  // Brand color from name (unique per client, stable)
+  if (!S.brandColor && has(B.name)) {
+    let h = 0; for (const c of B.name) h = (h * 31 + c.charCodeAt(0)) % 360;
+    const hue = [212, 160, 195, 24, 228, 175][h % 6];
+    document.documentElement.style.setProperty("--brand", `hsl(${hue} 72% 45%)`);
+    document.documentElement.style.setProperty("--brand-d", `hsl(${hue} 72% 37%)`);
+    document.documentElement.style.setProperty("--brand-l", `hsl(${hue} 80% 95%)`);
+  } else if (S.brandColor) document.documentElement.style.setProperty("--brand", S.brandColor);
+
+  // Demo bar
+  if (DEMO) { const d = $("demoBar"); d.textContent = "Demo preview" + (has(B.name) ? " prepared for " + B.name : "") + " — not the official website yet."; d.classList.remove("hide"); }
 
   // Title / meta
   if (has(B.name)) document.title = B.name + (place ? " — Handyman in " + place : "");
-  document.querySelector('meta[name=description]').content =
-    [B.tagline, place && "Handyman services in " + place].filter(has).join(". ");
+  document.querySelector('meta[name=description]').content = [B.tagline, place && "Handyman services in " + place].filter(has).join(". ");
 
-  // Logo
+  // Logo (image or monogram)
   const logo = $("logo");
   if (has(B.logo)) { const i = el("img"); i.src = B.logo; i.alt = B.name || "Logo"; logo.append(i); }
-  const ln = el("span"); put(ln, B.name, "Business Name"); logo.append(ln);
+  else if (has(B.name)) logo.append(el("span", "mono", B.name.trim()[0].toUpperCase()));
+  logo.append(el("span", null, B.name || ""));
 
-  // Phone buttons
+  // Call buttons
   const tel = has(B.phone) ? "tel:" + B.phone.replace(/[^\d+]/g, "") : "";
-  ["hCall","heroCall","barCall"].forEach(id => {
-    const a = $(id);
+  document.querySelectorAll(".callbtn").forEach(a => {
     if (tel) a.href = tel;
-    else if (P) { a.href = "#"; a.title = "Phone not set"; a.addEventListener("click", e => e.preventDefault()); }
+    else if (DEMO || P) { a.href = "#"; a.addEventListener("click", e => { e.preventDefault(); toast("Your phone number will be added here after setup."); }); }
     else a.classList.add("hide");
   });
-  if (has(B.phoneDisplay) && tel) $("heroCall").textContent = "📞 " + B.phoneDisplay;
+  if (tel && has(B.phoneDisplay)) document.querySelectorAll(".hero .callbtn span").forEach(s => s.textContent = B.phoneDisplay);
 
   // Hero
-  $("heroTitle").textContent = place ? "Your Local Handyman in " + place : (P ? "Your Local Handyman in [City, State]" : "Your Local Handyman");
-  put($("heroLead"), B.tagline, "Short tagline — e.g. what you do best");
+  const h1 = $("heroTitle");
+  h1.append("Your Local Handyman" + (place ? " in " : ""));
+  if (place) h1.append(el("span", null, place));
+  $("heroLead").textContent = has(B.tagline) ? B.tagline : "Repairs and small jobs around the house — just tell me what needs fixing.";
+  const tag = $("artTag");
+  if (has(B.name)) { tag.append(el("span", null, B.name)); tag.append(el("small", null, place ? "Serving " + place : "Local handyman")); }
+  else tag.classList.add("hide");
 
-  // Badges (only true facts)
-  const badges = $("badges");
-  const addB = t => badges.append(el("span","badge",t));
-  if (B.licensed) addB("✅ Licensed" + (has(B.licenseNumber) ? " #" + B.licenseNumber : ""));
-  if (B.insured) addB("🛡️ Insured");
-  if (has(B.yearsInBusiness)) addB("🔧 " + B.yearsInBusiness + " years experience");
-  if (has(B.hours)) addB("🕒 " + B.hours);
-  if (B.freeQuotes) addB("💬 Free quotes");
+  // Fact strip (only real data)
+  const st = $("stripIn"), addS = t => st.append(el("span", null, t));
+  if (place) addS("📍 " + place);
+  if (has(B.hours)) addS("🕒 " + B.hours);
+  if (B.licensed) addS("✅ Licensed" + (has(B.licenseNumber) ? " #" + B.licenseNumber : ""));
+  if (B.insured) addS("🛡️ Insured");
+  if (has(B.yearsInBusiness)) addS("🔧 " + B.yearsInBusiness + " years experience");
+  if (B.freeQuotes) addS("💬 Free quotes");
+  if (has(S.payments)) addS("💳 " + S.payments.join(", "));
+  if (!st.children.length) $("strip").classList.add("hide");
 
   // Services
-  const svc = S.services || [], sl = $("svcList"), sel = $("svcSelect");
+  const svc = S.services || [], sl = $("svcList");
+  if (svc.length && svc.length < 3) sl.classList.add("few");
   svc.forEach(s => {
-    const c = el("div","card svc");
-    if (has(s.icon)) c.append(el("div","ic",s.icon));
-    c.append(el("h3",null,s.name || ""));
-    if (has(s.desc)) c.append(el("p",null,s.desc));
-    if (has(s.priceFrom)) c.append(el("div","price","From " + s.priceFrom));
-    sl.append(c);
-    const o = el("option",null,s.name); o.value = s.name; sel.append(o);
+    const c = el("div", "card lift svc");
+    c.append(el("div", "ic", has(s.icon) ? s.icon : "🔧"));
+    const t = el("div"); t.append(el("h3", null, s.name || ""));
+    if (has(s.desc)) t.append(el("p", null, s.desc));
+    if (has(s.priceFrom)) t.append(el("div", "price", "From " + s.priceFrom));
+    c.append(t); sl.append(c);
   });
-  if (!svc.length && P) sl.append(el("div","card ph","[Add services in config.js]"));
-  sel.append(Object.assign(el("option",null,"Other"),{value:"Other"}));
-  hideSec("services", svc);
+  if (!svc.length) $("services").classList.add("hide");
+
+  // Gallery (real photos, or demo placeholders)
+  const gal = S.gallery || [];
+  gal.forEach(g => {
+    const c = el("div", "card lift"); c.style.padding = "8px";
+    const ba = el("div", "ba");
+    [["before", "Before"], ["after", "After"]].forEach(([k, t]) => {
+      if (!has(g[k])) return;
+      const f = el("figure"), i = el("img"); i.src = g[k]; i.alt = t + (g.caption ? " — " + g.caption : ""); i.loading = "lazy";
+      f.append(i, el("figcaption", null, t)); ba.append(f);
+    });
+    c.append(ba); if (has(g.caption)) { const p = el("p", null, g.caption); p.style.padding = "8px 6px 2px"; c.append(p); }
+    $("galList").append(c);
+  });
+  if (!gal.length) {
+    if (DEMO) {
+      $("galSub").textContent = "Your before & after photos will go here."; $("galList").classList.add("gal-ph");
+      ["Photo 1", "Photo 2", "Photo 3"].forEach(t => { const d = el("div", "ph-photo"); d.append(el("b", null, "📷"), t); $("galList").append(d); });
+    } else $("gallery").classList.add("hide");
+  }
+
+  // Reviews (real only) + link to real review page
+  const rev = S.reviews || [];
+  rev.forEach(r => {
+    const c = el("div", "card");
+    const n = Math.max(0, Math.min(5, parseInt(r.stars) || 0));
+    if (n) c.append(el("div", "stars", "★".repeat(n)));
+    c.append(el("p", null, "“" + (r.text || "") + "”"));
+    const m = el("p", null, "— " + (r.name || "") + (has(r.source) ? " · " + r.source : "")); m.style.cssText = "color:var(--muted);margin-top:8px;font-size:.9rem";
+    c.append(m); $("revList").append(c);
+  });
+  if (has(S.reviewsLink)) {
+    let src = "online"; try { src = new URL(S.reviewsLink).hostname.replace(/^www\./, "").split(".")[0]; src = src.charAt(0).toUpperCase() + src.slice(1); } catch (_) {}
+    if (/homeadvisor/i.test(src)) src = "HomeAdvisor";
+    $("revCtaText").textContent = "See what customers say on " + src;
+    $("revCtaBtn").href = S.reviewsLink; $("revCta").classList.remove("hide");
+  }
+  if (!rev.length && !has(S.reviewsLink)) $("reviews").classList.add("hide");
 
   // Area
   const area = S.serviceArea || [];
-  area.forEach(a => $("areaList").append(el("span","chip",a)));
-  if (!area.length && P) $("areaList").append(el("span","chip ph","[Cities / ZIP codes]"));
+  area.forEach(a => $("areaList").append(el("span", "chip", "📍 " + a)));
   $("areaSub").textContent = place ? "Based in " + place + ". Not sure if I cover you? Just ask." : "Not sure if I cover you? Just ask.";
-  hideSec("area", area);
+  if (!area.length) $("area").classList.add("hide");
 
-  // Gallery
-  const gal = S.gallery || [];
-  gal.forEach(g => {
-    const c = el("div","card"); c.style.padding = "8px";
-    const ba = el("div","ba");
-    [["before","Before"],["after","After"]].forEach(([k,t]) => {
-      if (!has(g[k])) return;
-      const f = el("figure"), i = el("img"); i.src = g[k]; i.alt = t + (g.caption ? " — " + g.caption : ""); i.loading = "lazy";
-      f.append(i, el("figcaption",null,t)); ba.append(f);
-    });
-    c.append(ba); if (has(g.caption)) { const p = el("p",null,g.caption); p.style.padding = "8px 6px 2px"; c.append(p); }
-    $("galList").append(c);
-  });
-  if (!gal.length && P) $("galList").append(el("div","card ph","[Real before/after photos]"));
-  hideSec("gallery", gal);
-
-  // Reviews (real only)
-  const rev = S.reviews || [];
-  rev.forEach(r => {
-    const c = el("div","card");
-    const n = Math.max(0, Math.min(5, parseInt(r.stars) || 0));
-    if (n) c.append(el("div","stars","★".repeat(n)));
-    c.append(el("p",null,"“" + (r.text || "") + "”"));
-    const m = el("p",null,"— " + (r.name || "") + (has(r.source) ? " · " + r.source : "")); m.style.cssText = "color:var(--muted);margin-top:8px;font-size:.9rem";
-    c.append(m); $("revList").append(c);
-  });
-  if (!rev.length && P) $("revList").append(el("div","card ph","[Real reviews only — e.g. copied from Google]"));
-  const rs = $("revSub");
-  if (has(S.reviewsLink)) { const a = el("a",null,"See all reviews →"); a.href = S.reviewsLink; a.target = "_blank"; a.rel = "noopener"; rs.append(a); }
-  hideSec("reviews", rev);
-
-  // FAQ (+ payments as FAQ item if set)
+  // FAQ
   const faq = (S.faq || []).slice();
   if (has(S.payments)) faq.push({ q: "How can I pay?", a: S.payments.join(", ") });
-  faq.forEach(f => { const d = el("details"); d.append(el("summary",null,f.q), el("p",null,f.a)); $("faqList").append(d); });
-  if (!faq.length && P) $("faqList").append(el("div","card ph","[FAQ: payment, warranty, how fast you come…]"));
-  hideSec("faqSec", faq);
+  if (has(B.hours)) faq.push({ q: "When are you available?", a: B.hours });
+  faq.forEach(f => { const d = el("details"); d.append(el("summary", null, f.q), el("p", null, f.a)); $("faqList").append(d); });
+  if (!faq.length) $("faqSec").classList.add("hide");
+
+  if (has(B.hours)) { const q = $("qHours"); q.innerHTML = ""; q.append(el("b", null, "✓"), " Hours: " + B.hours); q.classList.remove("hide"); }
 
   // Footer
   const fi = $("fInfo");
-  const fn = el("strong"); put(fn, B.name, "Business Name"); fi.append(fn);
-  [B.address || place, B.hours].filter(has).forEach(t => fi.append(el("div",null,t)));
-  if (tel) { const a = el("a",null,B.phoneDisplay || B.phone); a.href = tel; { const w = el("div"); w.append(a); fi.append(w); } }
-  if (has(B.email)) { const a = el("a",null,B.email); a.href = "mailto:" + B.email; { const w = el("div"); w.append(a); fi.append(w); } }
-  const so = S.social || {}, names = {google:"Google",facebook:"Facebook",instagram:"Instagram",yelp:"Yelp",nextdoor:"Nextdoor"};
-  Object.keys(names).forEach(k => { if (has(so[k])) { const a = el("a",null,names[k]); a.href = so[k]; a.target = "_blank"; a.rel = "noopener"; $("fSocial").append(a); } });
+  fi.append(el("strong", null, B.name || ""));
+  [B.address || place, B.hours].filter(has).forEach(t => fi.append(el("div", null, t)));
+  if (tel) { const w = el("div"), a = el("a", null, B.phoneDisplay || B.phone); a.href = tel; w.append(a); fi.append(w); }
+  if (has(B.email)) { const w = el("div"), a = el("a", null, B.email); a.href = "mailto:" + B.email; w.append(a); fi.append(w); }
+  const so = S.social || {}, names = { google: "Google", facebook: "Facebook", instagram: "Instagram", yelp: "Yelp", nextdoor: "Nextdoor" };
+  Object.keys(names).forEach(k => { if (has(so[k])) { const a = el("a", null, names[k]); a.href = so[k]; a.target = "_blank"; a.rel = "noopener"; $("fSocial").append(a); } });
   $("fCopy").textContent = "© " + new Date().getFullYear() + (has(B.name) ? " " + B.name : "");
+
+  // Sticky bar: if call hidden, quote button takes full width
+  if ($("bar").querySelector(".callbtn.hide")) $("bar").style.gridAutoColumns = "1fr";
 
   // Quote form
   const L = S.leads || {}, form = $("qForm"), msg = $("formMsg");
-  const say = (t, ok) => { msg.textContent = t; msg.className = ok ? "ok" : "err"; };
+  const fail = t => { msg.textContent = t; msg.className = "err"; };
+  const success = t => {
+    const d = el("div", "done");
+    d.innerHTML = '<div class="check"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div>';
+    d.append(el("h3", null, "Sent!"), el("p", null, t));
+    form.replaceWith(d);
+  };
   form.addEventListener("submit", async e => {
     e.preventDefault();
     const d = Object.fromEntries(new FormData(form));
-    if (!has(d.name) || !has(d.phone) || !has(d.details)) return say("Please fill in name, phone and what needs to be done.");
-    const text = `New quote request\nName: ${d.name}\nPhone: ${d.phone}\nService: ${d.service || "-"}\nZIP: ${d.zip || "-"}\nDetails: ${d.details}`;
+    if (!has(d.name) || !has(d.phone) || !has(d.details)) return fail("Please fill in your name, phone and what needs to be done.");
+    const text = `New quote request\nName: ${d.name}\nPhone: ${d.phone}\nDetails: ${d.details}`;
     if (has(L.formEndpoint)) {
-      try {
-        const r = await fetch(L.formEndpoint, { method: "POST", headers: { "Accept": "application/json" }, body: new FormData(form) });
-        if (!r.ok) throw 0;
-        form.reset(); return say("Thanks! Your request was sent. I'll get back to you soon.", true);
-      } catch (_) { return say("Couldn't send. Please call or text instead."); }
+      try { const r = await fetch(L.formEndpoint, { method: "POST", headers: { "Accept": "application/json" }, body: new FormData(form) }); if (!r.ok) throw 0; return success("Thanks! I'll get back to you soon."); }
+      catch (_) { return fail("Couldn't send. Please call or text instead."); }
     }
-    if (has(L.email)) { location.href = "mailto:" + L.email + "?subject=" + encodeURIComponent("Quote request — " + d.name) + "&body=" + encodeURIComponent(text); return say("Your email app should open — just press Send.", true); }
-    if (has(L.sms)) { location.href = "sms:" + L.sms.replace(/[^\d+]/g,"") + "?&body=" + encodeURIComponent(text); return say("Your messages app should open — just press Send.", true); }
-    say(P ? "[Form not connected yet — set leads in config.js]" : "Please call us to request a quote.");
+    if (has(L.email)) { location.href = "mailto:" + L.email + "?subject=" + encodeURIComponent("Quote request — " + d.name) + "&body=" + encodeURIComponent(text); return success("Your email app should open — just press Send."); }
+    if (has(L.sms)) { location.href = "sms:" + L.sms.replace(/[^\d+]/g, "") + "?&body=" + encodeURIComponent(text); return success("Your messages app should open — just press Send."); }
+    if (DEMO) return success("This is a demo — once set up, requests will go straight to your phone or email.");
+    fail("Please call us to request a quote.");
   });
+
+  // Scroll reveal
+  const items = document.querySelectorAll(".rv,.stagger");
+  if ("IntersectionObserver" in window) {
+    const io = new IntersectionObserver(es => es.forEach(x => { if (x.isIntersecting) { x.target.classList.add("in"); io.unobserve(x.target); } }), { threshold: .12 });
+    items.forEach(i => io.observe(i));
+  } else items.forEach(i => i.classList.add("in"));
 })();
 </script>
 </body>
