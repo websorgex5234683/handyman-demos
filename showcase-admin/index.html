@@ -253,6 +253,7 @@ footer a{color:#fff}
 <div class="toast" id="toast"></div>
 
 <script src="config.js"></script>
+<script>try{if(/[?&]preview=1/.test(location.search)){const p=localStorage.getItem("previewSITE");if(p){window.SITE=JSON.parse(p);window.__preview=true;}}}catch(_){}</script>
 <script>
 (function(){
   const S = window.SITE || {}, B = S.business || {}, P = !!S.showPlaceholders, DEMO = !!S.demo;
@@ -276,6 +277,8 @@ footer a{color:#fff}
 
   // Demo bar
   if (DEMO) { const d = $("demoBar"); d.textContent = "Demo preview" + (has(B.name) ? " prepared for " + B.name : "") + " — not the official website yet."; d.classList.remove("hide"); }
+
+  if (window.__preview) { const d = $("demoBar"); d.textContent = "Preview — your changes (demo mode, not published)"; d.classList.remove("hide"); d.style.background = "#dcfce7"; d.style.color = "#166534"; }
 
   // Title / meta
   if (has(B.name)) document.title = B.name + (place ? " — Handyman in " + place : "");

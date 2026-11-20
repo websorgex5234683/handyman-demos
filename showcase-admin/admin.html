@@ -51,6 +51,8 @@ small.mut{color:var(--muted)}
     <label>Access key<input type="password" id="keyIn" autocomplete="off"></label>
     <label class="check"><input type="checkbox" id="remember"> Remember on this device</label>
     <button class="btn btn-p" id="loginBtn">Log in</button>
+    <button class="btn btn-s" id="demoBtn" style="margin-left:8px">Try demo (no key)</button>
+    <p class="hint" style="margin-top:12px">Demo mode: try editing freely. Changes are only visible on this device and are not published.</p>
     <p id="loginMsg" class="err" style="margin-top:10px"></p>
   </div>
 </div>
@@ -71,7 +73,7 @@ const BRANCH = "main";
 /* =========================================================== */
 
 const API = `https://api.github.com/repos/${REPO}/contents/`;
-let KEY = "", S = JSON.parse(JSON.stringify(window.SITE || {}));
+let DEMO = false, KEY = "", S = JSON.parse(JSON.stringify(window.SITE || {}));
 const $ = id => document.getElementById(id);
 const el = (t, a = {}, ...kids) => { const e = document.createElement(t); for (const k in a) { if (k === "class") e.className = a[k]; else if (k.startsWith("on")) e.addEventListener(k.slice(2), a[k]); else e[k] = a[k]; } kids.forEach(k => e.append(k)); return e; };
 const status = (t, cls = "") => { $("status").innerHTML = ""; $("status").append(el("span", { class: cls }, t)); };
@@ -100,6 +102,7 @@ async function tryLogin(k) {
   } catch (_) { KEY = ""; $("loginMsg").textContent = "Wrong key, or the key has no access. Please try again."; }
 }
 $("loginBtn").onclick = () => tryLogin($("keyIn").value);
+$("demoBtn").onclick = () => { DEMO = true; $("loginBox").classList.add("hide"); $("editor").classList.remove("hide"); $("saveBtn").textContent = "👀 Preview changes"; status("Demo mode — nothing is published.", ""); render(); };
 $("keyIn").addEventListener("keydown", e => { if (e.key === "Enter") tryLogin($("keyIn").value); });
 $("logout").onclick = e => { e.preventDefault(); try { localStorage.removeItem("adminKey"); } catch (_) {} location.reload(); };
 try { const k = localStorage.getItem("adminKey"); if (k) { $("remember").checked = true; tryLogin(k); } } catch (_) {}
@@ -144,7 +147,8 @@ function photoPicker(obj, key) {
     const f = inp.files[0]; if (!f) return;
     status("Uploading photo…");
     try {
-      const data = await shrink(f, 1400);
+      const data = await shrink(f, DEMO ? 900 : 1400);
+      if (DEMO) { obj[key] = "data:image/jpeg;base64," + data; img.src = obj[key]; img.classList.remove("hide"); dirty(); status("Photo added (demo).", "ok"); return; }
       const name = "photos/up-" + Date.now() + ".jpg";
       await putFile(`${DIR}/${name}`, data, "Upload photo from admin");
       obj[key] = name; img.src = "data:image/jpeg;base64," + data; img.classList.remove("hide"); dirty();
@@ -198,6 +202,7 @@ let isDirty = false;
 function dirty() { isDirty = true; status("You have unsaved changes."); }
 window.addEventListener("beforeunload", e => { if (isDirty) { e.preventDefault(); e.returnValue = ""; } });
 $("saveBtn").onclick = async () => {
+  if (DEMO) { try { localStorage.setItem("previewSITE", JSON.stringify(S)); isDirty = false; window.open("./?preview=1", "_blank"); status("Preview opened in a new tab (demo, not published).", "ok"); } catch (e) { status("Preview failed: too many photos for demo mode.", "err"); } return; }
   status("Saving…");
   try {
     const out = "// Edited with Website Admin on " + new Date().toISOString().slice(0, 16).replace("T", " ") + "\nwindow.SITE = " + JSON.stringify(S, null, 2) + ";\n";
