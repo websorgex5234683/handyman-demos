@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Website Admin</title>
+<style>
+:root{--brand:#1f6feb;--ink:#17202b;--muted:#5b6675;--line:#e3e7ec;--bg:#f4f6f9}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;background:var(--bg);color:var(--ink);line-height:1.5;padding-bottom:100px}
+.wrap{max-width:820px;margin:0 auto;padding:0 16px}
+header{background:#fff;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:5}
+header .wrap{display:flex;justify-content:space-between;align-items:center;height:60px;gap:10px}
+header b{font-size:1.05rem}
+a{color:var(--brand)}
+.card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:20px;margin:18px 0}
+.card h2{font-size:1.15rem;margin-bottom:4px}
+.card .hint{color:var(--muted);font-size:.9rem;margin-bottom:14px}
+label{display:grid;gap:5px;font-weight:600;font-size:.92rem;margin-bottom:12px}
+input,textarea,select{font:inherit;padding:11px 12px;border:1px solid #c9d0d8;border-radius:10px;width:100%;background:#fff}
+input:focus,textarea:focus{outline:0;border-color:var(--brand);box-shadow:0 0 0 3px #eaf2ff}
+textarea{min-height:80px;resize:vertical}
+.row{display:grid;gap:12px;grid-template-columns:1fr 1fr}
+@media(max-width:600px){.row{grid-template-columns:1fr}}
+.check{display:flex;align-items:center;gap:10px;font-weight:600;margin:6px 0 10px}
+.check input{width:20px;height:20px}
+.item{border:1px solid var(--line);border-radius:12px;padding:14px;margin-bottom:12px;background:#fafbfc;position:relative}
+.item .del{position:absolute;top:10px;right:10px}
+.btn{display:inline-flex;align-items:center;gap:6px;border:0;border-radius:10px;padding:11px 16px;font:inherit;font-weight:700;cursor:pointer}
+.btn-p{background:var(--brand);color:#fff}
+.btn-s{background:#fff;border:1px solid #c9d0d8;color:var(--ink)}
+.btn-d{background:#fff;border:1px solid #f1b7b7;color:#b91c1c;padding:6px 10px;font-size:.85rem}
+.thumb{width:100%;max-width:220px;height:140px;object-fit:cover;border-radius:10px;display:block;margin-bottom:8px;background:#eee}
+.savebar{position:fixed;left:0;right:0;bottom:0;background:#fff;border-top:1px solid var(--line);padding:12px;z-index:6}
+.savebar .wrap{display:flex;gap:12px;align-items:center;justify-content:space-between}
+#status{font-weight:600;font-size:.95rem}
+.ok{color:#15803d}.err{color:#b91c1c}
+.login{max-width:440px;margin:60px auto}
+.hide{display:none!important}
+small.mut{color:var(--muted)}
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div class="wrap login" id="loginBox">
+  <div class="card">
+    <h2>🔒 Website Admin</h2>
+    <p class="hint">Enter your access key to edit your website. Only the owner has this key.</p>
+    <label>Access key<input type="password" id="keyIn" autocomplete="off"></label>
+    <label class="check"><input type="checkbox" id="remember"> Remember on this device</label>
+    <button class="btn btn-p" id="loginBtn">Log in</button>
+    <p id="loginMsg" class="err" style="margin-top:10px"></p>
+  </div>
+</div>
+
+<!-- EDITOR -->
+<div id="editor" class="hide">
+<header><div class="wrap"><b>✏️ Edit your website</b><span><a href="./" target="_blank">View site ↗</a> · <a href="#" id="logout">Log out</a></span></div></header>
+<div class="wrap" id="form"></div>
+<div class="savebar"><div class="wrap"><span id="status"><small class="mut">Changes are saved only when you press Save.</small></span><button class="btn btn-p" id="saveBtn">💾 Save changes</button></div></div>
+</div>
+
+<script src="config.js"></script>
+<script>
+/* ===== SETTINGS (set once per client by the developer) ===== */
+const REPO = "websorgex5234683/handyman-demos";   // owner/repo on GitHub
+const DIR  = "showcase-admin";                     // folder of this site in the repo
+const BRANCH = "main";
+/* =========================================================== */
+
+const API = `https://api.github.com/repos/${REPO}/contents/`;
+let KEY = "", S = JSON.parse(JSON.stringify(window.SITE || {}));
+const $ = id => document.getElementById(id);
+const el = (t, a = {}, ...kids) => { const e = document.createElement(t); for (const k in a) { if (k === "class") e.className = a[k]; else if (k.startsWith("on")) e.addEventListener(k.slice(2), a[k]); else e[k] = a[k]; } kids.forEach(k => e.append(k)); return e; };
+const status = (t, cls = "") => { $("status").innerHTML = ""; $("status").append(el("span", { class: cls }, t)); };
+const b64 = s => btoa(unescape(encodeURIComponent(s)));
+
+/* ---------- GitHub helpers ---------- */
+async function gh(path, opts = {}) {
+  const r = await fetch(API + path + (opts.method ? "" : `?ref=${BRANCH}`), { ...opts, headers: { "Authorization": "Bearer " + KEY, "Accept": "application/vnd.github+json", ...(opts.headers || {}) } });
+  if (!r.ok) { const t = await r.text(); throw new Error(r.status + " " + t.slice(0, 120)); }
+  return r.json();
+}
+async function putFile(path, contentB64, message) {
+  let sha; try { sha = (await gh(path)).sha; } catch (_) {}
+  return gh(path, { method: "PUT", body: JSON.stringify({ message, content: contentB64, branch: BRANCH, ...(sha ? { sha } : {}) }) });
+}
+
+/* ---------- Login ---------- */
+async function tryLogin(k) {
+  KEY = k.trim(); $("loginMsg").textContent = "Checking…";
+  try {
+    const r = await fetch(`https://api.github.com/repos/${REPO}`, { headers: { "Authorization": "Bearer " + KEY } });
+    const j = await r.json();
+    if (!r.ok || !(j.permissions && j.permissions.push)) throw 0;
+    if ($("remember").checked) try { localStorage.setItem("adminKey", KEY); } catch (_) {}
+    $("loginBox").classList.add("hide"); $("editor").classList.remove("hide"); render();
+  } catch (_) { KEY = ""; $("loginMsg").textContent = "Wrong key, or the key has no access. Please try again."; }
+}
+$("loginBtn").onclick = () => tryLogin($("keyIn").value);
+$("keyIn").addEventListener("keydown", e => { if (e.key === "Enter") tryLogin($("keyIn").value); });
+$("logout").onclick = e => { e.preventDefault(); try { localStorage.removeItem("adminKey"); } catch (_) {} location.reload(); };
+try { const k = localStorage.getItem("adminKey"); if (k) { $("remember").checked = true; tryLogin(k); } } catch (_) {}
+
+/* ---------- Form builders ---------- */
+const B = () => (S.business = S.business || {});
+function field(obj, key, label, type = "text", ph = "") {
+  const i = type === "textarea" ? el("textarea", { value: obj[key] || "", placeholder: ph }) : el("input", { type, value: obj[key] || "", placeholder: ph });
+  i.addEventListener("input", () => { obj[key] = i.value; dirty(); });
+  return el("label", {}, label, i);
+}
+function toggle(obj, key, label) {
+  const i = el("input", { type: "checkbox", checked: !!obj[key] });
+  i.addEventListener("change", () => { obj[key] = i.checked; dirty(); });
+  return el("label", { class: "check" }, i, label);
+}
+function listText(key, label, hint) {
+  const t = el("textarea", { value: (S[key] || []).join(", "), placeholder: hint });
+  t.addEventListener("input", () => { S[key] = t.value.split(",").map(x => x.trim()).filter(Boolean); dirty(); });
+  return el("label", {}, label, t);
+}
+function repeater(key, title, hint, make, blank) {
+  S[key] = S[key] || [];
+  const box = el("div");
+  const draw = () => {
+    box.innerHTML = "";
+    S[key].forEach((it, i) => {
+      const card = el("div", { class: "item" });
+      card.append(el("button", { class: "btn btn-d del", textContent: "Remove", onclick: () => { if (confirm("Remove this item?")) { S[key].splice(i, 1); dirty(); draw(); } } }));
+      make(card, it); box.append(card);
+    });
+    box.append(el("button", { class: "btn btn-s", textContent: "+ Add", onclick: () => { S[key].push(JSON.parse(JSON.stringify(blank))); dirty(); draw(); } }));
+  };
+  draw();
+  return el("div", { class: "card" }, el("h2", { textContent: title }), el("p", { class: "hint", textContent: hint }), box);
+}
+function photoPicker(obj, key) {
+  const img = el("img", { class: "thumb", src: obj[key] || "", alt: "" });
+  if (!obj[key]) img.classList.add("hide");
+  const inp = el("input", { type: "file", accept: "image/*" });
+  inp.addEventListener("change", async () => {
+    const f = inp.files[0]; if (!f) return;
+    status("Uploading photo…");
+    try {
+      const data = await shrink(f, 1400);
+      const name = "photos/up-" + Date.now() + ".jpg";
+      await putFile(`${DIR}/${name}`, data, "Upload photo from admin");
+      obj[key] = name; img.src = "data:image/jpeg;base64," + data; img.classList.remove("hide"); dirty();
+      status("Photo uploaded. Press Save to publish.", "ok");
+    } catch (e) { status("Upload failed: " + e.message, "err"); }
+  });
+  return el("label", {}, "Photo", img, inp);
+}
+function shrink(file, max) {
+  return new Promise((res, rej) => {
+    const r = new FileReader(); r.onerror = rej;
+    r.onload = () => { const im = new Image(); im.onerror = rej; im.onload = () => {
+      const k = Math.min(1, max / Math.max(im.width, im.height)); const c = document.createElement("canvas");
+      c.width = Math.round(im.width * k); c.height = Math.round(im.height * k); c.getContext("2d").drawImage(im, 0, 0, c.width, c.height);
+      res(c.toDataURL("image/jpeg", .82).split(",")[1]); }; im.src = r.result; };
+    r.readAsDataURL(file);
+  });
+}
+
+/* ---------- Render ---------- */
+function render() {
+  const f = $("form"); f.innerHTML = ""; const b = B(); S.leads = S.leads || {}; S.social = S.social || {};
+  f.append(el("div", { class: "card" }, el("h2", { textContent: "Business info" }), el("p", { class: "hint", textContent: "Shown at the top of your website and in the footer." }),
+    field(b, "name", "Business name"), field(b, "tagline", "Short tagline", "text", "e.g. Fast, friendly fixes for your home"),
+    el("div", { class: "row" }, field(b, "city", "City"), field(b, "state", "State", "text", "e.g. FL")),
+    el("div", { class: "row" }, field(b, "phoneDisplay", "Phone (as shown)", "text", "(407) 555-0123"), field(b, "phone", "Phone (for the Call button)", "tel", "+14075550123")),
+    el("div", { class: "row" }, field(b, "email", "Email", "email"), field(b, "hours", "Working hours", "text", "Mon–Sat 8am–6pm")),
+    field(b, "address", "Address (optional)"), field(b, "yearsInBusiness", "Years in business (optional)", "text", "e.g. 12"),
+    toggle(b, "licensed", "Licensed"), toggle(b, "insured", "Insured"), toggle(b, "freeQuotes", "Free quotes"),
+    el("p", { class: "hint", textContent: "Only turn these on if they are true." })));
+  f.append(el("div", { class: "card" }, el("h2", { textContent: "Top photo" }), el("p", { class: "hint", textContent: "The big photo at the top of your site." }), photoPicker(S, "heroImage")));
+  f.append(repeater("services", "Services", "What you do. Price is optional (e.g. $89).", (c, it) => {
+    c.append(el("div", { class: "row" }, field(it, "name", "Service name"), field(it, "priceFrom", "Price from (optional)", "text", "$89")), field(it, "desc", "Short description"), field(it, "icon", "Icon (emoji, optional)", "text", "🔧"));
+  }, { name: "", desc: "", priceFrom: "", icon: "🔧" }));
+  f.append(el("div", { class: "card" }, el("h2", { textContent: "Service area" }), el("p", { class: "hint", textContent: "Cities you work in, separated by commas." }), listText("serviceArea", "Cities", "Orlando, Winter Park, Kissimmee")));
+  f.append(repeater("gallery", "Photos of your work", "Upload real photos of jobs you did.", (c, it) => { c.append(photoPicker(it, "photo"), field(it, "caption", "Caption", "text", "e.g. Backyard fence rebuilt")); }, { photo: "", caption: "" }));
+  f.append(repeater("reviews", "Customer reviews", "Only real reviews from real customers.", (c, it) => {
+    c.append(el("div", { class: "row" }, field(it, "name", "Customer name", "text", "Jessica M."), field(it, "stars", "Stars (1–5)", "number")), field(it, "text", "Review text", "textarea"));
+  }, { name: "", text: "", stars: 5, source: "" }));
+  f.append(repeater("faq", "Questions & answers", "Common questions customers ask.", (c, it) => { c.append(field(it, "q", "Question"), field(it, "a", "Answer", "textarea")); }, { q: "", a: "" }));
+  f.append(el("div", { class: "card" }, el("h2", { textContent: "Payments & links" }),
+    listText("payments", "Payment methods (comma separated)", "Cash, Card, Zelle"),
+    field(S, "reviewsLink", "Link to your reviews page (Google, Yelp…)", "url"),
+    field(S.social, "facebook", "Facebook link", "url"), field(S.social, "instagram", "Instagram link", "url"), field(S.social, "google", "Google Business link", "url")));
+  f.append(el("div", { class: "card" }, el("h2", { textContent: "Where quote requests go" }), el("p", { class: "hint", textContent: "When a customer fills the form on your site." }),
+    field(S.leads, "email", "Send requests to this email", "email"), field(S.leads, "sms", "Or to this phone by text (SMS)", "tel")));
+}
+
+/* ---------- Save ---------- */
+let isDirty = false;
+function dirty() { isDirty = true; status("You have unsaved changes."); }
+window.addEventListener("beforeunload", e => { if (isDirty) { e.preventDefault(); e.returnValue = ""; } });
+$("saveBtn").onclick = async () => {
+  status("Saving…");
+  try {
+    const out = "// Edited with Website Admin on " + new Date().toISOString().slice(0, 16).replace("T", " ") + "\nwindow.SITE = " + JSON.stringify(S, null, 2) + ";\n";
+    await putFile(`${DIR}/config.js`, b64(out), "Update site content from admin");
+    isDirty = false;
+    status("✅ Saved! Your website will update in about 1 minute.", "ok");
+  } catch (e) { status("Could not save: " + e.message, "err"); }
+};
+</script>
+</body>
+</html>
